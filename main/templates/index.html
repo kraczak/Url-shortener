@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<title>Shorten URL</title>
+<html>
+<style>
+    input[type=text],
+    select {
+        width: 51%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    input[type=submit] {
+        width: 51%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    div {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+</style>
+<script>
+    function validateForm() {
+        var x = document.forms["shortenUrl"]["url"].value;
+        if (x == "") {
+            alert("URL cannot be empty!");
+            return false;
+        }
+        else if (!(x.startsWith("http://") || x.startsWith("https://"))){
+            alert("URL must start with http:// or https://")
+            return false;
+        }
+    } 
+</script>
+
+<head>
+    <meta charset="UTF-8" />
+</head>
+
+<body>
+    <div>
+        <center>
+            <form id="ShortenForm" action="/" method="POST" name="shortenUrl" onsubmit="return validateForm()">
+                <input id="shorten_url" class="shorten-input" name="url" type="text" value=""
+                    placeholder="Shorten your link">
+                <input id="shorten_btn" class="button" type="submit" value="Shorten">
+            </form>
+            {{if .}}
+            <h2>Your shorten links</h2>
+            {{range $key, $val := .}}
+            <a href="{{ $key }}" target="_blank"> {{ $key }}</a> ----> <a href="{{ $val }}" target="_blank"> {{ $val }}</a> </br>
+            {{end}}
+            {{end}}
+        </center>
+    </div>
+</body>
+
+</html>
